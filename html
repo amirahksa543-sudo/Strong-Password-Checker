@@ -1,1 +1,48 @@
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>فحص قوة كلمة المرور</title>
+<style>
+body{font-family:system-ui;background:#0f0f1e;color:#fff;text-align:center;padding:20px}
+.box{background:#1c1c30;padding:20px;border-radius:20px;max-width:400px;margin:auto}
+input{width:90%;padding:12px;border-radius:10px;border:none;font-size:18px;text-align:center}
+button{padding:12px 18px;border:none;border-radius:10px;background:#a855f7;color:#fff;font-size:16px;margin:5px}
+.bar{height:12px;background:#333;border-radius:10px;overflow:hidden;margin:15px 0}
+#fill{height:100%;width:0%;background:red;transition:.3s}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>🔐 فحص قوة كلمة المرور</h2>
+<input type="text" id="pass" placeholder="اكتبي كلمة المرور هنا" oninput="check()">
+<div class="bar"><div id="fill"></div></div>
+<h3 id="result">ادخلي كلمة المرور</h3>
+<p id="tips"></p>
+<button onclick="generate()">توليد كلمة قوية</button>
+<button onclick="copyPass()">نسخ</button>
+</div>
+<script>
+function check(){
+let p=document.getElementById('pass').value;
+let s=0; if(p.length>=8)s+=25; if(/[A-Z]/.test(p))s+=25; if(/[0-9]/.test(p))s+=25; if(/[^A-Za-z0-9]/.test(p))s+=25;
+let f=document.getElementById('fill'); f.style.width=s+'%';
+let r=document.getElementById('result');
+if(s<=25){r.innerText='ضعيفة ❌'; f.style.background='red';}
+else if(s<=50){r.innerText='متوسطة 😐'; f.style.background='orange';}
+else if(s<=75){r.innerText='قوية 🙂'; f.style.background='yellow';}
+else{r.innerText='قوية جداً 🔥'; f.style.background='green';}
+document.getElementById('tips').innerText = p.length<8 ? 'خليها 8 حروف على الأقل' : 'ممتازة، استمري!';
+}
+function generate(){
+let chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
+let p=''; for(let i=0;i<12;i++) p+=chars[Math.floor(Math.random()*chars.length)];
+document.getElementById('pass').value=p; check();
+}
+function copyPass(){
+let p=document.getElementById('pass'); p.select(); document.execCommand('copy'); alert('تم النسخ ✅');
+}
+</script>
+</body>
+</html>
